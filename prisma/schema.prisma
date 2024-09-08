@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement()) // Auto-incremented primary key
+
+  name      String
+  picture   String?   // Nullable picture field
+
+  parentId  Int?
+  parent    Category?   @relation("CategoryParent", fields: [parentId], references: [id]) // Self-referencing relation
+  children  Category[]  @relation("CategoryParent")
+
+  products  Product[] // Relation to products
+
+  createdAt DateTime  @default(now()) // Automatically set on creation
+  updatedAt DateTime  @updatedAt      // Automatically updated on update
+}
+
+model Product {
+  id        Int       @id @default(autoincrement()) // Auto-incremented primary key
+
+  name      String
+  picture   String?   // Nullable picture field
+
+  category  Category  @relation(fields: [categoryId], references: [id]) // Foreign key relation to Category
+  categoryId Int
+
+  createdAt DateTime  @default(now()) // Automatically set on creation
+  updatedAt DateTime  @updatedAt      // Automatically updated on update
+}
+
+
