@@ -7,7 +7,7 @@ class EnhancedPrismaClient extends PrismaClient {
   private constructor() {
     const logLevels =
       process.env.NODE_ENV === "development"
-        ? ["query", "info", "warn", "error"]
+        ? ["info", "warn", "error"]
         : ["warn", "error"];
 
     super({
@@ -28,8 +28,3 @@ class EnhancedPrismaClient extends PrismaClient {
 // Export the enhanced Prisma instance
 const prisma = EnhancedPrismaClient.getInstance();
 export default prisma;
-
-// Graceful shutdown
-process.on("beforeExit", async () => {
-  await prisma.disconnect();
-});
