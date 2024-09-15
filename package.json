@@ -6,13 +6,31 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:push": "prisma db push",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:migrate:prod": "prisma migrate deploy",
+    "prisma:migrate:reset": "prisma migrate reset --force",
+    "prisma:seed": "prisma db seed",
+    "build:migrate": "npm run prisma:migrate:dev && npm run build"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@prisma/client": "^5.19.1",
+    "@tanstack/react-query": "^5.55.4",
+    "@tanstack/react-query-devtools": "^5.55.4",
+    "axios": "^1.7.7",
+    "framer-motion": "^11.5.4",
+    "lucide-react": "^0.441.0",
     "next": "14.2.8",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.53.0",
+    "react-hot-toast": "^2.4.1",
+    "react-query": "^3.39.3",
+    "sharp": "^0.33.5",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",

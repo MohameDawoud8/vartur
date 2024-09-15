@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,32 +8,39 @@ datasource db {
 }
 
 model Category {
-  id        Int       @id @default(autoincrement()) // Auto-incremented primary key
+  id        Int       @id @default(autoincrement())
 
   name      String
-  picture   String?   // Nullable picture field
+
+  /// NOTE: While using a `BLOB` data type would be more efficient and performant
+  /// for storing images due to its smaller size and faster retrieval, this application
+  /// stores the image data as Base64 in a `String` column for compatibility reasons.
+  /// Since the data is embedded in JSON responses, Base64 encoding was chosen
+  /// to facilitate easy transfer and embedding in text-based formats such as JSON.
+  /// However, I know that Base64 increases the data size byapproximately 33%
+  picture   String?   @db.LongText
 
   parentId  Int?
-  parent    Category?   @relation("CategoryParent", fields: [parentId], references: [id]) // Self-referencing relation
+  parent    Category?   @relation("CategoryParent", fields: [parentId], references: [id])
   children  Category[]  @relation("CategoryParent")
 
   products  Product[] // Relation to products
 
-  createdAt DateTime  @default(now()) // Automatically set on creation
-  updatedAt DateTime  @updatedAt      // Automatically updated on update
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Product {
-  id        Int       @id @default(autoincrement()) // Auto-incremented primary key
+  id        Int       @id @default(autoincrement())
 
   name      String
-  picture   String?   // Nullable picture field
+  picture   String?   @db.LongText
 
-  category  Category  @relation(fields: [categoryId], references: [id]) // Foreign key relation to Category
+  category  Category  @relation(fields: [categoryId], references: [id])
   categoryId Int
 
-  createdAt DateTime  @default(now()) // Automatically set on creation
-  updatedAt DateTime  @updatedAt      // Automatically updated on update
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 
