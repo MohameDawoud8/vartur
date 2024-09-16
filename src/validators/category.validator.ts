@@ -11,8 +11,9 @@ export const createCategorySchema = Yup.object().shape({
     ),
   parentId: Yup.number()
     .optional()
+    .positive("Parent ID must be a positive integer")
     .nullable()
-    .positive("Parent ID must be a positive integer"),
+    .transform((value) => (value === null ? undefined : value)),
 });
 
 export const updateCategorySchema = Yup.object()
@@ -31,10 +32,17 @@ export const updateCategorySchema = Yup.object()
     }
   );
 
-export type CreateCategoryInput = Yup.InferType<typeof createCategorySchema>;
-export type UpdateCategoryInput = Yup.InferType<typeof updateCategorySchema>;
+// Explicitly define the output types
+export interface CreateCategoryInput {
+  name: string;
+  picture?: string;
+  parentId?: number;
+}
 
 export const validateCreateCategory =
   createValidator<CreateCategoryInput>(createCategorySchema);
+
+export type UpdateCategoryInput = Yup.InferType<typeof updateCategorySchema>;
+
 export const validateUpdateCategory =
   createValidator<UpdateCategoryInput>(updateCategorySchema);
