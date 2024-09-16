@@ -17,7 +17,6 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
     try {
       validatedData.picture = await processImage(validatedData.picture);
     } catch (error: any) {
-      console.error("Error processing image:", error);
       return NextResponse.json(
         { error: "Error processing image: " + error.message },
         { status: 400 }

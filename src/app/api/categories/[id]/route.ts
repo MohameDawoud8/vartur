@@ -25,7 +25,7 @@ export const GET = withErrorHandler(
   async (req: NextRequest, { params }: { params: { id: string } }) => {
     const { id } = await validateId({ id: parseInt(params.id) });
 
-    const category = await categoryRepo.getCategoryById(id);
+    const category = await categoryRepo.getCategoryById(`${id}`);
     if (!category) return notFound(`Category with id ${id} not found`);
 
     return NextResponse.json(category);
